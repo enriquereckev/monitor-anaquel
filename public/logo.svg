@@ -1,0 +1,32 @@
+<svg viewBox="0 0 400 90" xmlns="http://www.w3.org/2000/svg">
+  <!-- v3: Mark + Wordmark — símbolo de anaquel (3 repisas) + nombre -->
+
+  <!-- Símbolo: 3 repisas horizontales escalonadas (anaquel de tienda) -->
+  <!-- repisa superior — corta -->
+  <rect x="0" y="14" width="52" height="6" rx="3" fill="#0F766E"/>
+  <!-- repisa media — larga (más productos) -->
+  <rect x="0" y="38" width="68" height="6" rx="3" fill="#0F766E"/>
+  <!-- repisa inferior — media -->
+  <rect x="0" y="62" width="44" height="6" rx="3" fill="#0F766E"/>
+  <!-- soporte vertical izquierdo -->
+  <rect x="0" y="14" width="5" height="54" rx="2.5" fill="#1C1917" opacity="0.15"/>
+
+  <!-- separador vertical -->
+  <rect x="88" y="10" width="2" height="70" rx="1" fill="#E7E5E4"/>
+
+  <!-- Wordmark -->
+  <text
+    x="104" y="38"
+    font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+    font-weight="300"
+    font-size="16"
+    fill="#78716C"
+    letter-spacing="5">MONITOR</text>
+  <text
+    x="102" y="70"
+    font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+    font-weight="700"
+    font-size="30"
+    fill="#1C1917"
+    letter-spacing="-0.5">anaquel</text>
+</svg>
