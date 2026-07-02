@@ -136,27 +136,8 @@ export async function POST(req: NextRequest) {
       ? storageResult.value.data?.path ?? null
       : null;
 
-    const { data: analysis, error: dbError } = await supabase
-      .from("analyses")
-      .insert({
-        user_id: user.id,
-        store_name: storeName,
-        photo_url: photoUrl,
-        products,
-        brand_exhibited,
-        confidence,
-        reasoning,
-        raw_response: parsed,
-      })
-      .select("id")
-      .single();
-
-    if (dbError) {
-      console.error("DB insert error:", dbError);
-      return NextResponse.json({ errorCode: "api_failure" }, { status: 500 });
-    }
-
-    return NextResponse.json({ id: analysis.id });
+    // Return vision data for user review — saving happens in /api/save-analysis
+    return NextResponse.json({ products, brand_exhibited, confidence, reasoning, photoUrl });
   } catch (err) {
     console.error("Analyze route error:", err);
     return NextResponse.json({ errorCode: "network" }, { status: 500 });
