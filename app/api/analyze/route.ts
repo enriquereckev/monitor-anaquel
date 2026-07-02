@@ -31,9 +31,9 @@ const VisionOutputSchema = z.object({
   reasoning: z.string(),
 });
 
-const VISION_PROMPT = `Analiza esta foto de un anaquel de tienda. La marca propia es de tés e infusiones (Twinings u otras marcas de té que sean claramente la marca del dueño de la app).
+const VISION_PROMPT = `Analiza esta foto de un anaquel de tienda. La marca propia que debes identificar es **Flor de la Paz** — una marca de tés e infusiones. Cualquier producto que diga "Flor de la Paz" en su empaque es marca propia (is_own_brand: true). Todo lo demás es competencia (is_own_brand: false).
 
-Responde SOLO con JSON válido, sin texto adicional:
+Responde SOLO con JSON válido puro, sin bloques de código markdown, sin comillas de código, sin texto adicional antes o después:
 {
   "products": [
     {
@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
     const [visionResult, storageResult] = await Promise.allSettled([
       client.messages.create({
         model: "claude-sonnet-4-6",
-        max_tokens: 1024,
+        max_tokens: 4096,
         messages: [{
           role: "user",
           content: [
@@ -98,7 +98,8 @@ export async function POST(req: NextRequest) {
     ]);
 
     if (visionResult.status === "rejected") {
-      console.error("Claude Vision error:", visionResult.reason);
+      const errMsg = visionResult.reason?.message ?? String(visionResult.reason);
+      console.error("Claude Vision error:", errMsg);
       return NextResponse.json({ errorCode: "api_failure" }, { status: 502 });
     }
 
@@ -106,10 +107,14 @@ export async function POST(req: NextRequest) {
       ? visionResult.value.content[0].text.trim()
       : "";
 
+    // Strip markdown code fences (```json ... ``` or ``` ... ```)
+    const cleanText = rawText.replace(/^```[a-z]*\s*/i, "").replace(/\s*```\s*$/i, "").trim();
+
     let parsed: unknown;
     try {
-      parsed = JSON.parse(rawText);
+      parsed = JSON.parse(cleanText);
     } catch {
+      console.error("JSON parse failed. Raw text:", rawText.slice(0, 500));
       return NextResponse.json({ errorCode: "api_failure" }, { status: 502 });
     }
 
