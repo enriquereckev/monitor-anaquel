@@ -33,6 +33,8 @@ const VisionOutputSchema = z.object({
 
 const VISION_PROMPT = `Analiza esta foto de un anaquel de tienda. La marca propia que debes identificar es **Flor de la Paz** — una marca de tés e infusiones. Cualquier producto que diga "Flor de la Paz" en su empaque es marca propia (is_own_brand: true). Todo lo demás es competencia (is_own_brand: false).
 
+Para cada producto, busca su precio en la etiqueta del anaquel que está justo debajo del producto (una tira de papel o plástico pegada al borde del estante). Lee el número que aparece ahí y conviértelo a centavos (ejemplo: $45.00 MXN = price_cents: 4500). Si no puedes leer el precio con claridad, pon null.
+
 Responde SOLO con JSON válido puro, sin bloques de código markdown, sin comillas de código, sin texto adicional antes o después:
 {
   "products": [

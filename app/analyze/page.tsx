@@ -26,7 +26,7 @@ export default function AnalyzePage() {
 
     try {
       // Resize client-side: max 800px, quality 0.75
-      const base64 = await resizeImage(photo, 800, 0.75);
+      const base64 = await resizeImage(photo, 1200, 0.85);
 
       const res = await fetch("/api/analyze", {
         method: "POST",
