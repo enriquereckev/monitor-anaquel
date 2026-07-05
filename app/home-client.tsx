@@ -40,6 +40,14 @@ export default function HomeClient({ user, analyses }: { user: User; analyses: A
         padding: "16px 16px 0",
       }}>
         <img src="/logo.svg" alt="monitor anaquel" style={{ width: 120, height: "auto" }} />
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          {user.email === "enriquereckev@gmail.com" && (
+            <Link href="/admin" style={{
+              fontSize: 12, fontWeight: 600, color: "var(--c-accent)",
+              textDecoration: "none", padding: "4px 10px",
+              border: "1.5px solid var(--c-accent)", borderRadius: 9999,
+            }}>Admin</Link>
+          )}
         <button
           onClick={handleLogout}
           style={{
@@ -51,6 +59,7 @@ export default function HomeClient({ user, analyses }: { user: User; analyses: A
         >
           {initials}
         </button>
+        </div>
       </div>
 
       {/* Last analysis */}
